@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="parts/general :: common_header(~{::title})">
+    <title th:text="${company.name}"></title>
+</head>
+<body th:class="${#themes.code('body')}" ng-app="VoteManagement" ng-controller="VoteController">
+
+<div th:replace="parts/general :: navbar"></div>
+
+<div class="container mt-5 p-5 bg-white border">
+    <div class="row">
+        <div class="col-12 text-right">
+            <a class="nav-link" th:if="${show}" th:href="@{'/company/edit/' + ${company.id}}"  th:text="#{company.edit}"></a>
+
+            <input type="hidden" th:ng-init="${'company_id=' + company.id}" ng-value="company_id"/>
+            <div class="stars">
+                <input type="radio" class="star active" ng-model="companyRatingForm.vote" ng-change="addVote(1)"></input>
+                <input type="radio" class="star" ng-model="companyRatingForm.vote" ng-change="addVote(2)"></input>
+                <input type="radio" class="star" ng-model="companyRatingForm.vote" ng-change="addVote(3)"></input>
+                <input type="radio" class="star" ng-model="companyRatingForm.vote" ng-change="addVote(4)"></input>
+                <input type="radio" class="star" ng-model="companyRatingForm.vote" ng-change="addVote(5)"></input>
+            </div>
+
+        </div>
+        <div class="col-12 text-center">
+            <h2 class="pb-2" th:text="${company.name}"></h2>
+        </div>
+        <div class="col-12 text-center">
+            <h5 class="pb-4 font-weight-normal" th:text="${company.description}"></h5>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" th:src="${'https://www.youtube.com/embed/' + company.video}" allowfullscreen></iframe>
+            </div>
+        </div>
+        <div class="col-4">
+            <h2 th:text="${company.getPledgedSum() + ' $'}"></h2>
+            <p th:text="${'собрано из ' + company.goalAmount + ' $'}"></p>
+            <div class="progress" style="height: 6px;">
+                <div class="progress-bar" role="progressbar" th:style="${'width: ' + company.getPercent() +'%;'}" th:aria-valuenow="${company.getPercent()}" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <p class="mt-5 mb-0" th:text="${(company.owner.firstname != null || company.owner.lastname != null)?company.owner.firstname + ' ' + company.owner.lastname:'Anonymous'}"></p>
+            <p class="font-weight-light" th:text="${'Автор ' + company.owner.companies.size() + ' проектов'}"></p>
+        </div>
+    </div>
+</div>
+<div class="container mt-5 p-5 bg-white border">
+    <div class="row">
+        <div class="col-8">
+            <p th:text="${company.text}"></p>
+
+            <div th:each="comment : ${company.commentList}" class="card mb-3">
+                <div class="card-body">
+                    <h6 class="card-title" th:text="${comment.author.firstname}"></h6>
+                    <p class="card-text" th:text="${comment.text}"></p>
+                </div>
+            </div>
+
+            <form th:action="@{'/comment/add/'}" method="post">
+                <div class="form-group pt-5">
+                    <h5 th:text="#{comment.add} + ':'"></h5>
+                    <input type="text" class="form-control" name="text">
+                    <input type="hidden" class="form-control" name="company" th:value="${company.id}">
+                </div>
+                <button type="submit" class="btn btn-primary" th:text="#{comment.add}"></button>
+            </form>
+        </div>
+        <div class="col-4">
+
+            <form th:if="${show}" th:action="@{/news/add}" method="post">
+                <input type="hidden" name="company_id" th:value="${company.id}"/>
+                <button type="submit" class="btn btn-link mt-2" th:text="#{news.add}"></button>
+            </form>
+
+            <div th:each="news : ${company.newsList}">
+                <td><a class="nav-link" th:href="@{'/news/' + ${news.id}}" th:text="${news.title}"></a></td>
+            </div>
+
+            <form th:if="${show}" th:action="@{/bonus/add}" method="post">
+                <input type="hidden" name="company_id" th:value="${company.id}"/>
+                <button type="submit" class="btn btn-link mt-2" th:text="#{bonus.add}"></button>
+            </form>
+
+            <div th:each="bonus : ${company.bonusList}" class="card mb-3">
+                <div class="card-body">
+                    <a th:if="${show}" th:href="@{'/bonus/edit/' + ${bonus.id}}" th:text="#{bonus.edit}"></a>
+
+                    <h5 class="card-title" th:text="${bonus.title}"></h5>
+                    <p class="card-text" th:text="${bonus.description}">
+                    <p class="card-text" th:text="${'Стоимость: ' + bonus.amount}"></p>
+                    <p class="card-text" th:text="${'Приобретено: ' + bonus.userList.size()}"></p>
+                    </p>
+                    <form th:action="@{/bonus/confirmation}" method="post">
+                        <input type="hidden" name="bonus" th:value="${bonus.id}"/>
+                        <button type="submit" class="btn btn-primary mt-2">Купить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="parts/general :: footer"></div>
+
+<div class="row">
+    <h5 th:text="${company.getAverageRating()}"></h5>
+    <form th:action="@{/company/vote}" method="post">
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Рейтинг 1..5</label>
+            <div class="col-sm-4">
+                <input type="number" class="form-control" name="rating" step="1">
+                <input type="hidden" name="company_id" th:value="${company.id}"/>
+                <button type="submit" class="btn btn-primary mt-2" th:text="#{save}"></button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

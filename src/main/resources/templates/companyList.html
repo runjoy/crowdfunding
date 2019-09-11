@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="parts/general :: common_header(~{::title})">
+    <title th:text="#{menu.main}"></title>
+</head>
+<body th:class="${#themes.code('body')}">
+
+<div th:replace="parts/general :: navbar"></div>
+
+<div class="container mt-5 p-5 bg-white">
+    <div th:insert="parts/table :: companies_list(${user.companies})"></div>
+</div>
+
+
+
+<div th:replace="parts/general :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="parts/general :: common_header(~{::title})">
+    <title>Edit Profile</title>
+</head>
+<body th:class="${#themes.code('body')}">
+
+<div th:replace="parts/general :: navbar"></div>
+
+<div class="container mt-5 p-5 bg-white">
+
+    <form th:action="@{/profile/image}" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <div class="custom-file">
+                <input type="hidden" name="id" th:value="${user.id}"/>
+                <input type="file" name="file" class="form-control" id="customFile"/>
+                <label class="custom-file-label" for="customFile">Choose file</label>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary mt-2" th:text="#{save}"></button>
+    </form>
+
+    <h4 class="mb-3" th:text="#{profile.edit}"></h4>
+        <h5 class="mt-5" th:text="#{profile.data}"></h5>
+    <form th:action="@{/profile/change}" method="post">
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" th:text="#{profile.firstname}"></label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" name="firstname" id="firstname" th:value="${(user.firstname != null) ? user.firstname : ''}">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" th:text="#{profile.lastname}"></label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" name="lastname" id="lastname" th:value="${(user.lastname != null) ? user.lastname : ''}">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" th:text="#{profile.city}"></label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" name="city" id="city" th:value="${(user.city != null) ? user.city : ''}">
+                <input type="hidden" name="id" th:value="${user.id}"/>
+                <button type="submit" class="btn btn-primary mt-2" th:text="#{save}"></button>
+            </div>
+        </div>
+    </form>
+    <form th:action="@{/profile/changepassword}" method="post">
+        <h5 class="mt-5" th:text="#{profile.editpassword}"></h5>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" th:text="#{profile.password}"></label>
+            <div class="col-sm-4">
+                <input type="password" class="form-control" name="password" placeholder="********">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" th:text="#{profile.repeatpassword}"></label>
+            <div class="col-sm-4">
+                <input type="password" class="form-control" name="repeatpassword" placeholder="********">
+                <button type="submit" class="btn btn-primary mt-2" th:text="#{save}"></button>
+            </div>
+        </div>
+        <input type="hidden" name="id" th:value="${user.id}"/>
+    </form>
+
+</div>
+
+<div th:replace="parts/general :: footer"></div>
+
+</body>
+</html>

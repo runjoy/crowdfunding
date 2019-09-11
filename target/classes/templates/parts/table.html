@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <title>Title</title>
+</head>
+
+<body>
+<div class="row" th:fragment="companies_list(companies)">
+    <h5 th:text="#{company.list}"></h5>
+    <table class="table table-borderless">
+        <thead>
+        <tr>
+            <th scope="col" th:text="#{title}"></th>
+            <th scope="col" th:text="#{company.goal}"></th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr th:each="company : ${companies}">
+                <td><a class="nav-link" th:href="@{'/company/' + ${company.id}}" th:text="${company.name}"></a></td>
+                <td th:text="${company.goalAmount}"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="row" th:fragment="bonus_list(bonuses)">
+    <h5 th:text="#{bonus.list}"></h5>
+    <table class="table table-borderless">
+        <thead>
+        <tr>
+            <th scope="col" th:text="#{title}"></th>
+            <th scope="col" th:text="#{description}"></th>
+            <th scope="col" th:text="#{amount}"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="bonus : ${bonuses}">
+            <td th:text="${bonus.title}"></td>
+            <td th:text="${bonus.description}"></td>
+            <td th:text="${bonus.amount}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

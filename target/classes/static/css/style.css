@@ -1,0 +1,20 @@
+.postbutton {
+    width: 100%;
+}
+
+.stars {
+    font-size: 0px;
+}
+
+.star {
+    display: inline-block;
+    background: green;
+    transition: all .5s ease;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+}
+
+.star.active {
+    background: blue;
+}

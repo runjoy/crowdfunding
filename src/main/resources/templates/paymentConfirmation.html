@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="parts/general :: common_header(~{::title})">
+    <title th:text="#{payment.confirmation}"></title>
+</head>
+<body th:class="${#themes.code('body')}">
+
+<div th:replace="parts/general :: navbar"></div>
+
+<div class="container mt-5 p-5 bg-white">
+    <div class="row">
+        <div class="col-12">
+            <div class="card-body">
+                <h5 class="card-title" th:text="${bonus.title}"></h5>
+                <p class="card-text" th:text="${bonus.description}"></p>
+                <p th:text="#{amount} + ' ' + ${bonus.amount}"></p>
+                <form th:action="@{/bonus/buy}" method="post">
+                    <input type="hidden" name="bonus" th:value="${bonus.id}"/>
+                    <button type="submit" class="btn btn-link mt-2" th:text="#{buy}"></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="parts/general :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="parts/general :: common_header(~{::title})">
+    <title>Main page</title>
+</head>
+<body th:class="${#themes.code('body')}">
+
+<div th:replace="parts/general :: navbar"></div>
+
+<div class="container mt-5">
+    <p>Main page</p>
+</div>
+
+<div th:replace="parts/general :: footer"></div>
+
+</body>
+</html>
+
+
+
+
+

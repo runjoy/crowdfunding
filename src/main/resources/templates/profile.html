@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="parts/general :: common_header(~{::title})">
+    <title th:text="#{profile}"></title>
+</head>
+<body th:class="${#themes.code('body')}">
+
+<div th:replace="parts/general :: navbar"></div>
+
+<div class="container mt-5 p-5 bg-white">
+    <div class="row">
+        <div class="col-3 offset-9">
+            <a class="nav-link" sec:authorize="hasAuthority('ADMIN')" th:href="@{'/profile/edit/' + ${user.id}}" th:text="#{profile.edit}"></a>
+            <a class="nav-link" sec:authorize="not hasAuthority('ADMIN')" th:if="${auth_id==user.id}" th:href="@{'/profile/edit/' + ${user.id}}" th:text="#{profile.edit}"></a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3"><img src="/img/add_admin.png"></div>
+        <div class="col-9">
+            <span th:text="${(user.firstname != null || user.lastname != null)?user.firstname + ' ' + user.lastname:'Anonymous'}"></span>
+        </div>
+    </div>
+    <div th:insert="parts/table :: companies_list(${user.companies})" class="mt-5"></div>
+
+    <div th:insert="parts/table :: bonus_list(${user.bonusList})" class="mt-5"></div>
+</div>
+
+
+<div th:replace="parts/general :: footer"></div>
+
+</body>
+</html>

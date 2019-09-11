@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="parts/general :: common_header(~{::title})">
+    <title th:text="#{news}"></title>
+</head>
+<body th:class="${#themes.code('body')}">
+
+<div th:replace="parts/general :: navbar"></div>
+
+<div class="container mt-5 p-5 bg-white">
+    <div class="row">
+        <div class="col-3 offset-9">
+            <a class="nav-link" sec:authorize="hasAuthority('ADMIN')" th:href="@{'/news/edit/' + ${news.id}}" th:text="#{news.edit}"></a>
+            <a class="nav-link" sec:authorize="not hasAuthority('ADMIN')" th:if="${auth_id==news.company.owner.id}" th:href="@{'/news/edit/' + ${news.id}}" th:text="#{news.edit}"></a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h5 th:text="${news.title}"></h5>
+            <p th:text="${news.text}"></p>
+        </div>
+    </div>
+</div>
+
+
+<div th:replace="parts/general :: footer"></div>
+
+</body>
+</html>
