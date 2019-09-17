@@ -1,91 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6b5f7f09-6a82-4571-a92c-71fb90e9810a" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/bootstrap-markdown-editor-4/screenshots/screenshot-01.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/bootstrap-markdown-editor-4/Gruntfile.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/bootstrap-markdown-editor-4/LICENSE" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/bootstrap-markdown-editor-4/README.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/bootstrap-markdown-editor-4/bower.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/bootstrap-markdown-editor-4/dist/css/bootstrap-markdown-editor.min.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/bootstrap-markdown-editor-4/dist/js/bootstrap-markdown-editor.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/bootstrap-markdown-editor-4/dist/js/bootstrap-markdown-editor.min.js.map" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/bootstrap-markdown-editor-4/index.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/bootstrap-markdown-editor-4/package.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/bootstrap-markdown-editor-4/src/bootstrap-markdown-editor.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/bootstrap-markdown-editor-4/src/bootstrap-markdown-editor.less" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/static/js/ace.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/itransition/anton/config/WebMvcConfig.class" afterPath="$PROJECT_DIR$/target/classes/com/itransition/anton/config/WebMvcConfig.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/itransition/anton/config/WebSecurityConfig.class" afterPath="$PROJECT_DIR$/target/classes/com/itransition/anton/config/WebSecurityConfig.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/itransition/anton/controller/BonusController.class" afterPath="$PROJECT_DIR$/target/classes/com/itransition/anton/controller/BonusController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/itransition/anton/controller/CommentController.class" afterPath="$PROJECT_DIR$/target/classes/com/itransition/anton/controller/CommentController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/itransition/anton/controller/CompanyController.class" afterPath="$PROJECT_DIR$/target/classes/com/itransition/anton/controller/CompanyController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/itransition/anton/controller/CompanyRestController.class" afterPath="$PROJECT_DIR$/target/classes/com/itransition/anton/controller/CompanyRestController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/itransition/anton/controller/MainController.class" afterPath="$PROJECT_DIR$/target/classes/com/itransition/anton/controller/MainController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/itransition/anton/controller/NewsController.class" afterPath="$PROJECT_DIR$/target/classes/com/itransition/anton/controller/NewsController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/itransition/anton/domain/Bonus.class" afterPath="$PROJECT_DIR$/target/classes/com/itransition/anton/domain/Bonus.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/itransition/anton/domain/Comment.class" afterPath="$PROJECT_DIR$/target/classes/com/itransition/anton/domain/Comment.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/itransition/anton/domain/Company.class" afterPath="$PROJECT_DIR$/target/classes/com/itransition/anton/domain/Company.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/itransition/anton/domain/News.class" afterPath="$PROJECT_DIR$/target/classes/com/itransition/anton/domain/News.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/itransition/anton/domain/Topic.class" afterPath="$PROJECT_DIR$/target/classes/com/itransition/anton/domain/Topic.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/itransition/anton/domain/User.class" afterPath="$PROJECT_DIR$/target/classes/com/itransition/anton/domain/User.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/itransition/anton/repo/CommentLikeRepo.class" afterPath="$PROJECT_DIR$/target/classes/com/itransition/anton/repo/CommentLikeRepo.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/itransition/anton/repo/CompanyRepo.class" afterPath="$PROJECT_DIR$/target/classes/com/itransition/anton/repo/CompanyRepo.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/itransition/anton/service/BonusService.class" afterPath="$PROJECT_DIR$/target/classes/com/itransition/anton/service/BonusService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/itransition/anton/service/CommentService.class" afterPath="$PROJECT_DIR$/target/classes/com/itransition/anton/service/CommentService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/itransition/anton/service/CompanyService.class" afterPath="$PROJECT_DIR$/target/classes/com/itransition/anton/service/CompanyService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/itransition/anton/service/NewsService.class" afterPath="$PROJECT_DIR$/target/classes/com/itransition/anton/service/NewsService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/itransition/anton/service/UserService.class" afterPath="$PROJECT_DIR$/target/classes/com/itransition/anton/service/UserService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/crowdfunding.iml" afterPath="$PROJECT_DIR$/crowdfunding.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/itransition/anton/config/WebMvcConfig.java" afterPath="$PROJECT_DIR$/src/main/java/com/itransition/anton/config/WebMvcConfig.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/itransition/anton/config/WebSecurityConfig.java" afterPath="$PROJECT_DIR$/src/main/java/com/itransition/anton/config/WebSecurityConfig.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/itransition/anton/controller/BonusController.java" afterPath="$PROJECT_DIR$/src/main/java/com/itransition/anton/controller/BonusController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/itransition/anton/controller/CommentController.java" afterPath="$PROJECT_DIR$/src/main/java/com/itransition/anton/controller/CommentController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/itransition/anton/controller/CompanyController.java" afterPath="$PROJECT_DIR$/src/main/java/com/itransition/anton/controller/CompanyController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/itransition/anton/controller/CompanyRestController.java" afterPath="$PROJECT_DIR$/src/main/java/com/itransition/anton/controller/CompanyRestController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/itransition/anton/controller/MainController.java" afterPath="$PROJECT_DIR$/src/main/java/com/itransition/anton/controller/MainController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/itransition/anton/controller/NewsController.java" afterPath="$PROJECT_DIR$/src/main/java/com/itransition/anton/controller/NewsController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/itransition/anton/domain/Bonus.java" afterPath="$PROJECT_DIR$/src/main/java/com/itransition/anton/domain/Bonus.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/itransition/anton/domain/Comment.java" afterPath="$PROJECT_DIR$/src/main/java/com/itransition/anton/domain/Comment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/itransition/anton/domain/Company.java" afterPath="$PROJECT_DIR$/src/main/java/com/itransition/anton/domain/Company.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/itransition/anton/domain/News.java" afterPath="$PROJECT_DIR$/src/main/java/com/itransition/anton/domain/News.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/itransition/anton/domain/Topic.java" afterPath="$PROJECT_DIR$/src/main/java/com/itransition/anton/domain/Topic.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/itransition/anton/domain/User.java" afterPath="$PROJECT_DIR$/src/main/java/com/itransition/anton/domain/User.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/itransition/anton/repo/CommentLikeRepo.java" afterPath="$PROJECT_DIR$/src/main/java/com/itransition/anton/repo/CommentLikeRepo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/itransition/anton/repo/CompanyRepo.java" afterPath="$PROJECT_DIR$/src/main/java/com/itransition/anton/repo/CompanyRepo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/itransition/anton/service/BonusService.java" afterPath="$PROJECT_DIR$/src/main/java/com/itransition/anton/service/BonusService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/itransition/anton/service/CommentService.java" afterPath="$PROJECT_DIR$/src/main/java/com/itransition/anton/service/CommentService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/itransition/anton/service/CompanyService.java" afterPath="$PROJECT_DIR$/src/main/java/com/itransition/anton/service/CompanyService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/itransition/anton/service/NewsService.java" afterPath="$PROJECT_DIR$/src/main/java/com/itransition/anton/service/NewsService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/itransition/anton/service/UserService.java" afterPath="$PROJECT_DIR$/src/main/java/com/itransition/anton/service/UserService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/messages.properties" afterPath="$PROJECT_DIR$/src/main/resources/messages.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/messages_en.properties" afterPath="$PROJECT_DIR$/src/main/resources/messages_en.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/static/css/style.css" afterPath="$PROJECT_DIR$/src/main/resources/static/css/style.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/static/js/rating.js" afterPath="$PROJECT_DIR$/src/main/resources/static/js/rating.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/templates/company.html" afterPath="$PROJECT_DIR$/src/main/resources/templates/company.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/templates/companyList.html" afterPath="$PROJECT_DIR$/src/main/resources/templates/companyList.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/templates/editorCompany.html" afterPath="$PROJECT_DIR$/src/main/resources/templates/editorCompany.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/templates/index.html" afterPath="$PROJECT_DIR$/src/main/resources/templates/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/templates/news.html" afterPath="$PROJECT_DIR$/src/main/resources/templates/news.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/templates/parts/general.html" afterPath="$PROJECT_DIR$/src/main/resources/templates/parts/general.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/templates/parts/table.html" afterPath="$PROJECT_DIR$/src/main/resources/templates/parts/table.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/templates/profile.html" afterPath="$PROJECT_DIR$/src/main/resources/templates/profile.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/application.properties" afterPath="$PROJECT_DIR$/target/classes/application.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/messages.properties" afterPath="$PROJECT_DIR$/target/classes/messages.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/messages_en.properties" afterPath="$PROJECT_DIR$/target/classes/messages_en.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/static/css/style.css" afterPath="$PROJECT_DIR$/target/classes/static/css/style.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/static/js/rating.js" afterPath="$PROJECT_DIR$/target/classes/static/js/rating.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/templates/company.html" afterPath="$PROJECT_DIR$/target/classes/templates/company.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/templates/companyList.html" afterPath="$PROJECT_DIR$/target/classes/templates/companyList.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/templates/editorCompany.html" afterPath="$PROJECT_DIR$/target/classes/templates/editorCompany.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/templates/index.html" afterPath="$PROJECT_DIR$/target/classes/templates/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/templates/news.html" afterPath="$PROJECT_DIR$/target/classes/templates/news.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/templates/parts/general.html" afterPath="$PROJECT_DIR$/target/classes/templates/parts/general.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/templates/parts/table.html" afterPath="$PROJECT_DIR$/target/classes/templates/parts/table.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/templates/profile.html" afterPath="$PROJECT_DIR$/target/classes/templates/profile.html" />
-    </list>
+    <list default="true" id="6b5f7f09-6a82-4571-a92c-71fb90e9810a" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -1225,15 +1141,15 @@
       <workItem from="1568533506948" duration="13057000" />
       <workItem from="1568613212294" duration="12647000" />
       <workItem from="1568631182553" duration="4914000" />
-      <workItem from="1568697912536" duration="17035000" />
+      <workItem from="1568697912536" duration="17367000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="328030000" />
+    <option name="totallyTimeSpent" value="328362000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-14" y="-14" width="3868" height="2098" extended-state="1" />
+    <frame x="-14" y="-14" width="3868" height="2098" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
