@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6b5f7f09-6a82-4571-a92c-71fb90e9810a" name="Default" comment="" />
+    <list default="true" id="6b5f7f09-6a82-4571-a92c-71fb90e9810a" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/client_secret.json" afterPath="" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -1141,12 +1143,12 @@
       <workItem from="1568533506948" duration="13057000" />
       <workItem from="1568613212294" duration="12647000" />
       <workItem from="1568631182553" duration="4914000" />
-      <workItem from="1568697912536" duration="17367000" />
+      <workItem from="1568697912536" duration="17452000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="328362000" />
+    <option name="totallyTimeSpent" value="328447000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-14" y="-14" width="3868" height="2098" extended-state="0" />
