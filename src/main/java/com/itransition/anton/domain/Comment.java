@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 public class Comment {
-
+    //ss
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
