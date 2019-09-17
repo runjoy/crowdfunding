@@ -55,4 +55,9 @@ public class BonusService {
         user.getBonusList().add(bonus);
         userRepo.save(user);
     }
+
+    public void deleteBonus(Bonus bonus) {
+        Bonus DBbonus = bonusRepo.findById(bonus.getId()).get();
+        bonusRepo.delete(DBbonus);
+    }
 }

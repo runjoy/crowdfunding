@@ -7,9 +7,18 @@
 
 <div th:replace="parts/general :: navbar"></div>
 
-<div class="container mt-5">
-    <p>Main page</p>
+<div class="container mt-5 p-5 bg-white border">
+    <div class="mb-3">
+        <h3 th:text="#{company.last}"></h3>
+        <div th:insert="parts/card :: company_cards(${lastCompany})"></div>
+    </div>
+
+    <div>
+        <h3 th:text="#{company.top}"></h3>
+        <div th:insert="parts/card :: company_cards(${topCompany})"></div>
+    </div>
 </div>
+
 
 <div th:replace="parts/general :: footer"></div>
 

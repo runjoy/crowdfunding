@@ -22,8 +22,8 @@ public class BonusController {
     @Autowired
     private BonusService bonusService;
 
-    @PostMapping("add")
-    public String addBonus(@RequestParam Long company_id, Model model) {
+    @GetMapping("add/{company_id}")
+    public String addBonus(@PathVariable Long company_id, Model model) {
         model.addAttribute("company_id", company_id);
         model.addAttribute("add", true);
         return "editorBonus";
@@ -65,9 +65,13 @@ public class BonusController {
 
     @PostMapping("buy")
     public String buy(@AuthenticationPrincipal User currentUser, @RequestParam Bonus bonus) {
-        System.out.println("--------------------------------");
-        System.out.println(currentUser.getId());
         bonusService.buyBonus(currentUser.getId(), bonus);
+        return "redirect:/company/" + bonus.getCompany().getId();
+    }
+
+    @PostMapping("delete")
+    public String delete(@RequestParam Bonus bonus) {
+        bonusService.deleteBonus(bonus);
         return "redirect:/company/" + bonus.getCompany().getId();
     }
 }

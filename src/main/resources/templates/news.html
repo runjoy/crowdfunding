@@ -10,8 +10,13 @@
 <div class="container mt-5 p-5 bg-white">
     <div class="row">
         <div class="col-3 offset-9">
-            <a class="nav-link" sec:authorize="hasAuthority('ADMIN')" th:href="@{'/news/edit/' + ${news.id}}" th:text="#{news.edit}"></a>
-            <a class="nav-link" sec:authorize="not hasAuthority('ADMIN')" th:if="${auth_id==news.company.owner.id}" th:href="@{'/news/edit/' + ${news.id}}" th:text="#{news.edit}"></a>
+            <div class="text-right">
+                <a class="d-inline mt-0" th:if="${show}" th:href="@{'/news/edit/' + ${news.id}}"><img style="width : 20px" src="/img/edit.png" /></a>
+                <form class="d-inline mt-0" th:if="${show}" th:action="@{/news/delete}" method="post">
+                    <input type="hidden" name="news" th:value="${news.id}"/>
+                    <button type="submit" class="btn btn-link"><img style="width : 20px" src="/img/close.png" /></button>
+                </form>
+            </div>
         </div>
     </div>
     <div class="row">

@@ -19,6 +19,7 @@ public class Comment {
     @JoinColumn(name = "user_id", nullable = false)
     private User author;
 
+    @Column(length=2000)
     private String text;
 
     @ManyToOne
@@ -86,6 +87,22 @@ public class Comment {
 
     public void setCommentLikeList(List<CommentLike> commentLikeList) {
         this.commentLikeList = commentLikeList;
+    }
+
+    public int getCountLike() {
+        int count = 0;
+        for(CommentLike like : commentLikeList) {
+            if (like.isVote()) count++;
+        }
+        return count;
+    }
+
+    public int getCountDislike() {
+        int count = 0;
+        for(CommentLike like : commentLikeList) {
+            if (!like.isVote()) count++;
+        }
+        return count;
     }
 
 

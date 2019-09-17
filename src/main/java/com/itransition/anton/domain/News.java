@@ -1,6 +1,7 @@
 package com.itransition.anton.domain;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Created by qanto on 08.09.2019.
@@ -13,9 +14,13 @@ public class News {
 
     private String title;
 
+    @Column(length=10000)
     private String text;
 
     private String image;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date addDate;
 
     @ManyToOne
     @JoinColumn(name = "company_id", nullable = false)
@@ -59,5 +64,13 @@ public class News {
 
     public void setCompany(Company company) {
         this.company = company;
+    }
+
+    public Date getAddDate() {
+        return addDate;
+    }
+
+    public void setAddDate(Date addDate) {
+        this.addDate = addDate;
     }
 }

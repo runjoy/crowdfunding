@@ -42,8 +42,10 @@ public class CommentService {
     }
 
     public void addLike(Comment comment, User user, boolean vote) {
-        CommentLike commentLike = new CommentLike(comment, user, vote);
-        commentLikeRepo.save(commentLike);
+        if (!commentLikeRepo.findByUserIdAndComment(user.getId(), comment).isPresent()) {
+            CommentLike commentLike = new CommentLike(comment, user, vote);
+            commentLikeRepo.save(commentLike);
+        }
     }
 
     public List<Comment> getComment(Company company) {

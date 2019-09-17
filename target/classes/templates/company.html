@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="parts/general :: common_header(~{::title})">
     <title th:text="${company.name}"></title>
 </head>
@@ -14,13 +13,11 @@
             <a class="nav-link" th:if="${show}" th:href="@{'/company/edit/' + ${company.id}}"  th:text="#{company.edit}"></a>
 
             <input type="hidden" th:ng-init="${'company_id=' + company.id}" ng-value="company_id"/>
-            <div class="stars">
-                <input type="radio" class="star active" ng-model="companyRatingForm.vote" ng-change="addVote(1)"></input>
-                <input type="radio" class="star" ng-model="companyRatingForm.vote" ng-change="addVote(2)"></input>
-                <input type="radio" class="star" ng-model="companyRatingForm.vote" ng-change="addVote(3)"></input>
-                <input type="radio" class="star" ng-model="companyRatingForm.vote" ng-change="addVote(4)"></input>
-                <input type="radio" class="star" ng-model="companyRatingForm.vote" ng-change="addVote(5)"></input>
-            </div>
+            <span class="stars">
+                <span th:each="i: ${#numbers.sequence( 1, 5, 1)}" type="checkbox" th:class="'star ' + ${(company.getIntAverageRating()>=i)?'active':' '}" ng-model="companyRatingForm.vote" th:ng-click="${'addVote('+ i + ')'}"></span>
+            </span>
+            <input type="hidden" th:ng-init="${'rating=' + company.rating}" ng-value="rating"></input>
+            <span class="ml-1 align-top unselectable">{{rating}}</span>
 
         </div>
         <div class="col-12 text-center">
@@ -37,41 +34,61 @@
             </div>
         </div>
         <div class="col-4">
-            <h2 th:text="${company.getPledgedSum() + ' $'}"></h2>
-            <p th:text="${'собрано из ' + company.goalAmount + ' $'}"></p>
+            <h2 th:text="${#numbers.formatDecimal(company.getPledgedSum(), 1, 2) + ' $'}"></h2>
+            <p th:text="#{company.collected(${#numbers.formatDecimal(company.goalAmount, 1, 2)})}"></p>
             <div class="progress" style="height: 6px;">
                 <div class="progress-bar" role="progressbar" th:style="${'width: ' + company.getPercent() +'%;'}" th:aria-valuenow="${company.getPercent()}" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
-            <p class="mt-5 mb-0" th:text="${(company.owner.firstname != null || company.owner.lastname != null)?company.owner.firstname + ' ' + company.owner.lastname:'Anonymous'}"></p>
-            <p class="font-weight-light" th:text="${'Автор ' + company.owner.companies.size() + ' проектов'}"></p>
+            <p th:text="#{company.finalDate} + ': ' + ${#dates.format(company.finalDate, 'dd/MM/yyyy')}"></p>
+            <p class="mt-5 mb-0">
+                <a th:href="@{'/profile/' + ${company.owner.id}}">
+                    <span th:text="${(company.owner.firstname != null || company.owner.lastname != null)?company.owner.firstname + ' ' + company.owner.lastname:'Anonymous'}"></span>
+                </a>
+            </p>
+            <p class="font-weight-light" th:text="#{profile.created(${company.owner.companies.size()})}"></p>
+            <p><img style="width : 20px" src="/img/topic.png" class="mr-1"/><span th:text="#{'topic.' + ${company.topic}}" class="align-bottom"></span></p>
+            <p>Tags: <span th:each="tag : ${company.tags}" th:text="${tag.name + ' '}" class="align-bottom"></span></p>
         </div>
     </div>
 </div>
 <div class="container mt-5 p-5 bg-white border">
     <div class="row">
         <div class="col-8">
-            <p th:text="${company.text}"></p>
-
+            <input type="hidden" id="company-text" th:value="${company.text}"></input>
+            <div id="company-text-field"></div>
             <div th:each="comment : ${company.commentList}" class="card mb-3">
                 <div class="card-body">
                     <h6 class="card-title" th:text="${comment.author.firstname}"></h6>
                     <p class="card-text" th:text="${comment.text}"></p>
+                    <div class="text-right">
+                        <form class="d-inline mt-0" th:action="@{/comment/vote}" method="post">
+                            <input type="hidden" name="comment" th:value="${comment.id}"/>
+                            <label th:text="${comment.getCountLike()}"></label>
+                            <input type="hidden" name="vote" value="true"/>
+                            <button type="submit" class="btn btn-link"><img style="width : 20px" src="/img/like.png" /></button>
+                        </form>
+                        <form class="d-inline mt-0" th:action="@{/comment/vote}" method="post">
+                            <input type="hidden" name="comment" th:value="${comment.id}"/>
+                            <label th:text="${comment.getCountDislike()}"></label>
+                            <input type="hidden" name="vote" value="false"/>
+                            <button type="submit" class="btn btn-link"><img style="width : 20px" src="/img/dislike.png" /></button>
+                        </form>
+                    </div>
                 </div>
             </div>
 
-            <form th:action="@{'/comment/add/'}" method="post">
-                <div class="form-group pt-5">
-                    <h5 th:text="#{comment.add} + ':'"></h5>
-                    <input type="text" class="form-control" name="text">
-                    <input type="hidden" class="form-control" name="company" th:value="${company.id}">
-                </div>
-                <button type="submit" class="btn btn-primary" th:text="#{comment.add}"></button>
-            </form>
+                <form th:action="@{'/comment/add/'}" method="post">
+                    <div class="form-group pt-5">
+                        <h5 th:text="#{comment.add} + ':'"></h5>
+                        <input type="text" class="form-control" name="text">
+                        <input type="hidden" class="form-control" name="company" th:value="${company.id}">
+                    </div>
+                    <button type="submit" class="btn btn-primary" th:text="#{comment.add}"></button>
+                </form>
         </div>
         <div class="col-4">
 
-            <form th:if="${show}" th:action="@{/news/add}" method="post">
-                <input type="hidden" name="company_id" th:value="${company.id}"/>
+            <form th:if="${show}" th:action="@{'/news/add/' + ${company.id}}" method="get">
                 <button type="submit" class="btn btn-link mt-2" th:text="#{news.add}"></button>
             </form>
 
@@ -79,23 +96,28 @@
                 <td><a class="nav-link" th:href="@{'/news/' + ${news.id}}" th:text="${news.title}"></a></td>
             </div>
 
-            <form th:if="${show}" th:action="@{/bonus/add}" method="post">
-                <input type="hidden" name="company_id" th:value="${company.id}"/>
+            <form th:if="${show}" th:action="@{'/bonus/add/' + ${company.id}}" method="get">
                 <button type="submit" class="btn btn-link mt-2" th:text="#{bonus.add}"></button>
             </form>
 
             <div th:each="bonus : ${company.bonusList}" class="card mb-3">
                 <div class="card-body">
-                    <a th:if="${show}" th:href="@{'/bonus/edit/' + ${bonus.id}}" th:text="#{bonus.edit}"></a>
+                    <div class="text-right">
+                        <a class="d-inline mt-0" th:if="${show}" th:href="@{'/bonus/edit/' + ${bonus.id}}"><img style="width : 20px" src="/img/edit.png" /></a>
+                        <form class="d-inline mt-0" th:if="${show}" th:action="@{/bonus/delete}" method="post">
+                            <input type="hidden" name="bonus" th:value="${bonus.id}"/>
+                            <button type="submit" class="btn btn-link"><img style="width : 20px" src="/img/close.png" /></button>
+                        </form>
+                    </div>
 
                     <h5 class="card-title" th:text="${bonus.title}"></h5>
                     <p class="card-text" th:text="${bonus.description}">
-                    <p class="card-text" th:text="${'Стоимость: ' + bonus.amount}"></p>
-                    <p class="card-text" th:text="${'Приобретено: ' + bonus.userList.size()}"></p>
+                    <p class="card-text" th:text="#{amount} + ': ' + ${#numbers.formatDecimal(bonus.amount, 1, 2)} +' $'"></p>
+                    <p class="card-text" th:text="#{bonus.purchased} + ': ' + ${bonus.userList.size()}"></p>
                     </p>
                     <form th:action="@{/bonus/confirmation}" method="post">
                         <input type="hidden" name="bonus" th:value="${bonus.id}"/>
-                        <button type="submit" class="btn btn-primary mt-2">Купить</button>
+                        <button type="submit" class="btn btn-primary mt-2" th:text="#{buy}"></button>
                     </form>
                 </div>
             </div>
@@ -103,19 +125,7 @@
     </div>
 </div>
 <div th:replace="parts/general :: footer"></div>
+<script src="/js/rating.js"></script>
 
-<div class="row">
-    <h5 th:text="${company.getAverageRating()}"></h5>
-    <form th:action="@{/company/vote}" method="post">
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label">Рейтинг 1..5</label>
-            <div class="col-sm-4">
-                <input type="number" class="form-control" name="rating" step="1">
-                <input type="hidden" name="company_id" th:value="${company.id}"/>
-                <button type="submit" class="btn btn-primary mt-2" th:text="#{save}"></button>
-            </div>
-        </div>
-    </form>
-</div>
 </body>
 </html>

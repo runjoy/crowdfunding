@@ -8,6 +8,7 @@ import com.itransition.anton.service.NewsService;
 import com.itransition.anton.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,17 +22,36 @@ import org.springframework.web.bind.annotation.*;
 public class NewsController {
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private NewsService newsService;
 
     @GetMapping("{news}")
     public String editNews(@AuthenticationPrincipal User user, @PathVariable News news, Model model) {
+        Object objUser = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Boolean show = false;
+
+        if (objUser instanceof User) {
+            show = userService.getShowRole((User)objUser, news.getCompany().getOwner());
+        }
+
+
+        model.addAttribute("show", show);
         model.addAttribute("auth_id", user.getId());
         model.addAttribute("news", news);
         return "news";
     }
 
-    @PostMapping("add")
+    /*@PostMapping("add")
     public String addNews(@RequestParam Long company_id, Model model) {
+        model.addAttribute("company_id", company_id);
+        model.addAttribute("add", true);
+        return "editorNews";
+    }*/
+
+    @GetMapping("add/{company_id}")
+    public String addNews(@PathVariable Long company_id, Model model) {
         model.addAttribute("company_id", company_id);
         model.addAttribute("add", true);
         return "editorNews";
@@ -65,5 +85,10 @@ public class NewsController {
         }
     }
 
+    @PostMapping("delete")
+    public String delete(@RequestParam News news) {
+        newsService.deleteBonus(news);
+        return "redirect:/company/" + news.getCompany().getId();
+    }
 
 }

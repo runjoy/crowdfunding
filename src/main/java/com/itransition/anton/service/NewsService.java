@@ -41,4 +41,9 @@ public class NewsService {
 
         newsRepo.save(news);
     }
+
+    public void deleteBonus(News news) {
+        News DBnews = newsRepo.findById(news.getId()).get();
+        newsRepo.delete(DBnews);
+    }
 }

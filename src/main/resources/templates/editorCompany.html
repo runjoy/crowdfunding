@@ -4,52 +4,97 @@
     <title th:if="${add}" th:text="#{company.add}"></title>
     <title th:if="${not add}" th:text="#{company.edit}"></title>
 </head>
-<body class="bg-light">
+<body class="bg-light" ng-app="CompanyManagement">
 
 <div th:replace="parts/general :: navbar"></div>
 
-<div class="container mt-5 p-5 bg-white">
+<div class="container mt-5 p-5 bg-white" th:inline="text">
 
     <h4 class="mb-3" th:if="${add}" th:text="#{company.add}"></h4>
     <h4 class="mb-3" th:if="${not add}" th:text="#{company.edit}"></h4>
-    <form th:action="@{/company/change}" method="post">
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label" th:text="#{title}"></label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control" name="name" th:value="${add?'':company.name}">
-            </div>
+    <input type="hidden" th:ng-init="${'companyRest.id=&quot;' + company.id + '&quot'}" ng-value="companyRest.id"></input>
+    <input type="hidden" th:ng-init="${'companyRest.name=&quot;' + company.name + '&quot'}" ng-value="companyRest.name"></input>
+    <input type="hidden" th:ng-init="${'companyRest.description=&quot;' + company.description + '&quot'}" ng-value="companyRest.description"></input>
+    <input type="hidden" th:ng-init="${'companyRest.text=&quot;' + company.text + '&quot'}" ng-value="companyRest.text"></input>
+    <input type="hidden" th:ng-init="${'companyRest.video=&quot;https://www.youtube.com/watch?v=' + company.video + '&quot'}" ng-value="companyRest.video"></input>
+    <input type="hidden" th:ng-init="${'companyRest.goalAmount=&quot;' + company.goalAmount + '&quot'}" ng-value="companyRest.goalAmount"></input>
+    <input type="hidden" th:ng-init="${'companyRest.finalDate=&quot;' + #dates.format(company.finalDate, 'dd-MM-yyyy') + '&quot'}" ng-value="companyRest.finalDate"></input>
+    <input type="hidden" th:ng-init="${'companyRest.topic=&quot;' + company.topic + '&quot'}" ng-value="companyRest.topic"></input>
+    <input type="hidden" th:ng-init="${'topices=[' + topices + ']'}" ng-value="topices"></input>
+        <div ng-controller="EditableFormCtrl" id="EditableFormCtrl">
+            <form editable-form name="editableForm" onaftersave="saveUser()">
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" th:text="#{title}"></label>
+                    <div class="col-sm-4" style="width: 100%">
+                        <div editable-text="companyRest.name" e-name="name" class="pt-2">{{ companyRest.name || 'empty' }}</div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" th:text="#{shortdescription}"></label>
+                    <div class="col-sm-4">
+                        <div editable-text="companyRest.description" e-name="description" class="pt-2">{{ companyRest.description || 'empty' }}</div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" th:text="#{fulldescription}"></label>
+                    <div class="col-sm-4">
+                        <div editable-textarea="companyRest.text" e-name="text" class="pt-2">{{ companyRest.text || 'empty' }}</div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" th:text="#{video.url}"></label>
+                    <div class="col-sm-4">
+                        <div editable-text="companyRest.video" e-name="video" class="pt-2">{{ companyRest.video || 'empty' }}</div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" th:text="#{topic}"></label>
+                    <div class="col-sm-4">
+                        <div editable-select="companyRest.topic" e-name="topic" th:e-ng-options="${'o for o in topices'}" class="pt-2">{{ companyRest.topic || 'empty' }}</div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" th:text="#{company.goal}"></label>
+                    <div class="col-sm-4">
+                        <div editable-text="companyRest.goalAmount" e-name="goalAmount" class="pt-2">{{ companyRest.goalAmount || 'empty' }}</div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" th:text="#{company.finalDate}"></label>
+                    <div class="col-sm-4">
+                        <div editable-date="companyRest.finalDate" e-name="finalDate" class="pt-2">{{ (companyRest.finalDate | date: "yyyy-MM-dd") || 'empty' }}</div>
+                    </div>
+                </div>
+
+                <div class="buttons">
+                    <!-- button to show form -->
+                    <button type="button" class="btn btn-default" ng-click="editableForm.$show()" ng-show="!editableForm.$visible">
+                        Edit
+                    </button>
+                    <!-- buttons to submit / cancel form -->
+                    <span ng-show="editableForm.$visible">
+            <button type="submit" class="btn btn-primary" ng-disabled="editableForm.$waiting">
+              Save
+            </button>
+            <button type="button" class="btn btn-default" ng-disabled="editableForm.$waiting" ng-click="editableForm.$cancel()">
+              Cancel
+            </button>
+          </span>
+                </div>
+            </form>
         </div>
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label" th:text="#{shortdescription}"></label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control" name="description" th:value="${add?'':company.description}">
-            </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label" th:text="#{fulldescription}"></label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control" name="text" th:value="${add?'':company.text}">
-            </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label" th:text="#{video.url}"></label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control" name="video" th:value="${add?'':company.video}">
-            </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label" th:text="#{company.goal}"></label>
-            <div class="col-sm-4">
-                <input type="number" class="form-control" name="goalAmount" step="0.01" th:value="${add?'':company.goalAmount}">
-                <input type="hidden" name="user_id" th:value="${user.id}"/>
-                <input type="hidden" name="company_id" th:value="${add?'0':company.id}"/>
-                <button type="submit" class="btn btn-primary mt-2" th:text="#{save}"></button>
-            </div>
-        </div>
-    </form>
+
 
 </div>
 
 <div th:replace="parts/general :: footer"></div>
+<script src="/js/xeditable.js"></script>
+<script src="/js/edit_company.js"></script>
 </body>
 </html>

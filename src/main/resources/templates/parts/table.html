@@ -9,21 +9,31 @@
 
 <body>
 <div class="row" th:fragment="companies_list(companies)">
-    <h5 th:text="#{company.list}"></h5>
-    <table class="table table-borderless">
-        <thead>
-        <tr>
-            <th scope="col" th:text="#{title}"></th>
-            <th scope="col" th:text="#{company.goal}"></th>
-        </tr>
-        </thead>
-        <tbody>
-            <tr th:each="company : ${companies}">
-                <td><a class="nav-link" th:href="@{'/company/' + ${company.id}}" th:text="${company.name}"></a></td>
-                <td th:text="${company.goalAmount}"></td>
-            </tr>
-        </tbody>
-    </table>
+        <div class="col-sm-12">
+            <h5 th:text="#{company.list}"></h5>
+            <table class="table table-borderless" cellspacing="0" id="myTable">
+                <thead>
+                <tr>
+                    <th scope="col" th:text="#{title}"></th>
+                    <th scope="col" th:text="#{topic}"></th>
+                    <th scope="col" th:text="#{company.collect}"></th>
+                    <th scope="col" th:text="#{company.goal}"></th>
+                    <th scope="col" th:text="#{profile.author}"></th>
+                    <th scope="col" th:text="#{company.finalDate}"></th>
+                </tr>
+                </thead>
+                <tbody width="100%">
+                <tr th:each="company : ${companies}">
+                    <td><a class="nav-link" th:href="@{'/company/' + ${company.id}}" th:text="${company.name}"></a></td>
+                    <td th:text="#{'topic.' + ${company.topic}}"></td>
+                    <td th:text="${#numbers.formatDecimal(company.getPledgedSum(), 1, 2) + ' $'}"></td>
+                    <td th:text="${#numbers.formatDecimal(company.goalAmount, 1, 2) + ' $'}"></td>
+                    <td th:text="${company.owner.email}"></td>
+                    <td th:text="${#dates.format(company.finalDate, 'dd/MM/yyyy')}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 </div>
 <div class="row" th:fragment="bonus_list(bonuses)">
     <h5 th:text="#{bonus.list}"></h5>
@@ -39,7 +49,7 @@
         <tr th:each="bonus : ${bonuses}">
             <td th:text="${bonus.title}"></td>
             <td th:text="${bonus.description}"></td>
-            <td th:text="${bonus.amount}"></td>
+            <td th:text="${#numbers.formatDecimal(bonus.amount, 1, 2) + ' $'}"></td>
         </tr>
         </tbody>
     </table>

@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <title>Title</title>
+</head>
+
+<body>
+<div class="row" th:fragment="company_cards(companies)">
+    <div th:each="company : ${companies}" class="card d-inline-block align-top mr-3 mb-3" style="width: 18rem;">
+        <img class="card-img-top" th:src="${'https://img.youtube.com/vi/' + company.video + '/0.jpg'}">
+        <div class="card-body">
+            <a th:href="@{'/company/' + ${company.id}}"><h5 class="card-title" th:text="${company.name}"></h5></a>
+            <p class="card-text" th:text="${company.description}"></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

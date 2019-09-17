@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="parts/general :: common_header(~{::title})">
+    <title th:text="#{company.add}"></title>
+</head>
+<body class="bg-light">
+
+<div th:replace="parts/general :: navbar"></div>
+
+<div class="container mt-5 p-5 bg-white">
+    <h4 class="mb-3" th:text="#{company.add}"></h4>
+    <form ngNoForm th:action="@{/company/change}" method="post">
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" th:text="#{title}"></label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" name="name">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" th:text="#{shortdescription}"></label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" name="description">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" th:text="#{fulldescription}"></label>
+            <div class="col-sm-10">
+                <textarea name="text" id="myEditor"></textarea>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" th:text="#{video.url}"></label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" name="video">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" th:text="#{topic}"></label>
+            <div class="col-sm-4">
+                <select name="topic" class="form-control">
+                    <option th:each="topic : ${topices}" th:text="${topic}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" th:text="#{company.goal}"></label>
+            <div class="col-sm-4">
+                <input type="number" class="form-control" name="goalAmount" step="0.01">
+            </div>
+        </div>
+
+
+
+
+
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" th:text="#{tags}"></label>
+            <div class="col-sm-4">
+
+
+
+                <div id="tags">
+                    <input type="text" id="myInput" onkeyup="filterFunction()" onclick="myFunction()" >
+                    <div id="myDropdown" class="dropdown-content">
+                        <a th:each="tag : ${tags}" th:text="${tag.name}"></a>
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+
+
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" th:text="#{company.finalDate}"></label>
+            <div class="col-sm-4">
+                <input type="date" class="form-control" name="finalDate">
+                <input type="hidden" name="user_id" th:value="${user.id}"/>
+                <input type="hidden" name="company_id" value="0"/>
+                <button type="submit" class="btn btn-primary mt-2" th:text="#{save}"></button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div th:replace="parts/general :: footer"></div>
+<script src="/js/xeditable.js"></script>
+<script src="/js/edit_company.js"></script>
+<script src="/js/simpleMDE.js"></script>
+<script>
+    $(function(){ // DOM ready
+
+        // ::: TAGS BOX
+
+        $("#tags input").on({
+            focusout : function() {
+                var txt= this.value.replace(/[^a-zа-я0-9\+\-\.#]/ig,''); // allowed characters
+                if(txt) {
+                    $('<span/>',{text:txt.toLowerCase(), insertBefore:this});
+                    $('<input/>',{name:'tags', type:'hidden', value:txt.toLowerCase(), insertBefore:this});
+                }
+                this.value="";
+            },
+            keyup : function(ev) {
+                // if: comma|enter (delimit more keyCodes with | pipe)
+                if(/(188|32)/.test(ev.which)) $(this).focusout();
+            }
+        });
+        $('#tags').on('click', 'span', function() {
+            if(confirm("Remove "+ $(this).text() +"?")) {
+                $(this.nextElementSibling).remove();
+                $(this).remove();
+            }
+        });
+
+    });
+
+    function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    function filterFunction() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        div = document.getElementById("myDropdown");
+        a = div.getElementsByTagName("a");
+        for (i = 0; i < a.length; i++) {
+            txtValue = a[i].textContent || a[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                a[i].style.display = "";
+            } else {
+                a[i].style.display = "none";
+            }
+        }
+    }
+
+    function insertText() {
+        alert();
+    }
+</script>
+</body>
+</html>

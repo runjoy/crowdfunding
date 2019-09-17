@@ -210,4 +210,9 @@ public class User implements UserDetails {
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
+
+    public static void main(String[] args) {
+        Topic[] topics = Topic.values();
+        System.out.println(Topic.getTopics());
+    }
 }
