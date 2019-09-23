@@ -1,5 +1,7 @@
 package com.itransition.anton.domain;
 
+import org.hibernate.search.annotations.*;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -12,8 +14,10 @@ public class News {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Field(index = org.hibernate.search.annotations.Index.YES, analyze=Analyze.YES, termVector = TermVector.YES, analyzer = @Analyzer(definition = "edgeNgram"), store = Store.NO)
     private String title;
 
+    @Field(index = org.hibernate.search.annotations.Index.YES, analyze= Analyze.YES, termVector = TermVector.YES, analyzer = @Analyzer(definition = "edgeNgram"), store = Store.NO)
     @Column(length=10000)
     private String text;
 

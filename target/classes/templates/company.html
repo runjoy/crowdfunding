@@ -40,12 +40,19 @@
                 <div class="progress-bar" role="progressbar" th:style="${'width: ' + company.getPercent() +'%;'}" th:aria-valuenow="${company.getPercent()}" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
             <p th:text="#{company.finalDate} + ': ' + ${#dates.format(company.finalDate, 'dd/MM/yyyy')}"></p>
-            <p class="mt-5 mb-0">
-                <a th:href="@{'/profile/' + ${company.owner.id}}">
-                    <span th:text="${(company.owner.firstname != null || company.owner.lastname != null)?company.owner.firstname + ' ' + company.owner.lastname:'Anonymous'}"></span>
-                </a>
-            </p>
-            <p class="font-weight-light" th:text="#{profile.created(${company.owner.companies.size()})}"></p>
+            <div class="row mt-5">
+                <div class="col-3">
+                    <img th:src="${'https://drive.google.com/uc?export=view&id=' + company.owner.filename}" width="60" height="60">
+                </div>
+                <div class="col-9">
+                    <p class="mb-0">
+                        <a th:href="@{'/profile/' + ${company.owner.id}}">
+                            <span th:text="${(company.owner.firstname != null || company.owner.lastname != null)?company.owner.firstname + ' ' + company.owner.lastname:'Anonymous'}"></span>
+                        </a>
+                    </p>
+                    <p class="font-weight-light" th:text="#{profile.created(${company.owner.companies.size()})}"></p>
+                </div>
+            </div>
             <p><img style="width : 20px" src="/img/topic.png" class="mr-1"/><span th:text="#{'topic.' + ${company.topic}}" class="align-bottom"></span></p>
             <p>Tags: <span th:each="tag : ${company.tags}" th:text="${tag.name + ' '}" class="align-bottom"></span></p>
         </div>
@@ -54,29 +61,71 @@
 <div class="container mt-5 p-5 bg-white border">
     <div class="row">
         <div class="col-8">
+            <div class="bd-example">
+                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <div th:each="image, iter: ${company.companyImageList}" th:class="'carousel-item ' + ${iter.index==0?'active':''}">
+                                <img th:src="${'https://drive.google.com/uc?export=view&id=' + image.imageId}">
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+            </div>
+            <p>
+                <a class="btn btn-link" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    Добавить изображение
+                </a>
+            </p>
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                    <form th:action="@{/company/load_image}" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <div class="custom-file">
+                                <input type="hidden" name="company" th:value="${company.id}"/>
+                                <input type="file" name="file" class="form-control" id="customFile"/>
+                                <label class="custom-file-label" for="customFile">Choose file</label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-2" th:text="#{save}"></button>
+                    </form>
+                </div>
+            </div>
             <input type="hidden" id="company-text" th:value="${company.text}"></input>
             <div id="company-text-field"></div>
             <div th:each="comment : ${company.commentList}" class="card mb-3">
-                <div class="card-body">
-                    <h6 class="card-title" th:text="${comment.author.firstname}"></h6>
-                    <p class="card-text" th:text="${comment.text}"></p>
-                    <div class="text-right">
-                        <form class="d-inline mt-0" th:action="@{/comment/vote}" method="post">
-                            <input type="hidden" name="comment" th:value="${comment.id}"/>
-                            <label th:text="${comment.getCountLike()}"></label>
-                            <input type="hidden" name="vote" value="true"/>
-                            <button type="submit" class="btn btn-link"><img style="width : 20px" src="/img/like.png" /></button>
-                        </form>
-                        <form class="d-inline mt-0" th:action="@{/comment/vote}" method="post">
-                            <input type="hidden" name="comment" th:value="${comment.id}"/>
-                            <label th:text="${comment.getCountDislike()}"></label>
-                            <input type="hidden" name="vote" value="false"/>
-                            <button type="submit" class="btn btn-link"><img style="width : 20px" src="/img/dislike.png" /></button>
-                        </form>
+                <div class="card-body pb-0 pt-2">
+                    <div class="row mb-0">
+                        <div class="col-2 text-right">
+                            <img th:src="${'https://drive.google.com/uc?export=view&id=' + comment.author.filename}" width="60" height="60">
+                            <h6 class="card-title" th:text="${comment.author.firstname}"></h6>
+                        </div>
+                        <div class="col-10">
+                            <p class="card-text" th:text="${comment.text}"></p>
+                            <div class="text-right mb-0 p-0">
+                                <form class="d-inline mt-0" th:action="@{/comment/vote}" method="post">
+                                    <input type="hidden" name="comment" th:value="${comment.id}"/>
+                                    <label th:text="${comment.getCountLike()}"></label>
+                                    <input type="hidden" name="vote" value="true"/>
+                                    <button type="submit" class="btn btn-link"><img style="width : 20px" src="/img/like.png" /></button>
+                                </form>
+                                <form class="d-inline mt-0" th:action="@{/comment/vote}" method="post">
+                                    <input type="hidden" name="comment" th:value="${comment.id}"/>
+                                    <label th:text="${comment.getCountDislike()}"></label>
+                                    <input type="hidden" name="vote" value="false"/>
+                                    <button type="submit" class="btn btn-link"><img style="width : 20px" src="/img/dislike.png" /></button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
                 <form th:action="@{'/comment/add/'}" method="post">
                     <div class="form-group pt-5">
                         <h5 th:text="#{comment.add} + ':'"></h5>
@@ -85,6 +134,34 @@
                     </div>
                     <button type="submit" class="btn btn-primary" th:text="#{comment.add}"></button>
                 </form>
+
+
+
+
+
+
+
+
+            <H3>Socket Form (НЕРЕАЛИЗОВАНО)</H3>
+            <div class="msg_history">
+                <div th:each="message : ${messages}" th:text="${message}"></div>
+            </div>
+
+            <form id="messageForm" name="messageForm">
+                <input type="hidden" id="company" th:value="${company.id}"/>
+                <input type="hidden" id="user" value="1"/>
+                <input type="text" id="text" class="write_msg" placeholder="Type a message" />
+                <button class="msg_send_btn" type="submit">sfg</button>
+            </form>
+
+
+
+
+
+
+
+
+
         </div>
         <div class="col-4">
 
@@ -126,6 +203,8 @@
 </div>
 <div th:replace="parts/general :: footer"></div>
 <script src="/js/rating.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="/js/message.js"></script>
 </body>
 </html>

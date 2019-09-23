@@ -1,15 +1,13 @@
 package com.itransition.anton.controller;
 
-import com.itransition.anton.domain.Company;
-import com.itransition.anton.domain.Role;
-import com.itransition.anton.domain.Topic;
-import com.itransition.anton.domain.User;
+import com.itransition.anton.domain.*;
 import com.itransition.anton.repo.TagRepo;
 import com.itransition.anton.service.CompanyService;
 import com.itransition.anton.service.UserService;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.Search;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.PrincipalExtractor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 import java.util.Arrays;
@@ -42,7 +41,8 @@ public class CompanyController {
 
     @PreAuthorize("authenticated")
     @GetMapping
-    public String Company(@AuthenticationPrincipal User user, Model model) {
+    public String Company(Model model) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("user", userService.getUserById(user.getId()));
         return "companyList";
     }
@@ -65,7 +65,8 @@ public class CompanyController {
 
     @PreAuthorize("authenticated")
     @GetMapping("/add")
-    public String editCompany(@AuthenticationPrincipal User user, Model model) {
+    public String editCompany(Model model) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("user", userService.getUserById(user.getId()));
         model.addAttribute("topices", Topic.values());
         model.addAttribute("tags", tagRepo.findAll());
@@ -74,7 +75,8 @@ public class CompanyController {
 
     @PreAuthorize("authenticated")
     @GetMapping("/edit/{company_id}") //заменить тип pathvariable company
-    public String addCompany(@PathVariable Long company_id, @AuthenticationPrincipal User user, Model model) {
+    public String addCompany(@PathVariable Long company_id, Model model) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Company company = companyService.getCompanyById(company_id);
         if((user.getRoles().contains(Role.ADMIN)) || (user.getId() == company.getOwner().getId())) {
             model.addAttribute("user", userService.getUserById(user.getId()));
@@ -114,8 +116,14 @@ public class CompanyController {
 
     @GetMapping("/search")
     public String searchCompany(@RequestParam(required = false, defaultValue = "") String search, Model model) {
-        companyService.searchCompany(search);
-        return "redirect:/";
+        model.addAttribute("companies", companyService.searchCompany(search));
+        return "/search";
+    }
+
+    @PostMapping("/load_image")
+    public String addCompanyImage(@RequestParam Company company, @RequestParam("file") MultipartFile file) {
+        companyService.addCompanyImage(company.getId(), file);
+        return "redirect:/company/" + company.getId();
     }
 
 }

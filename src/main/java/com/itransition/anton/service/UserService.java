@@ -57,7 +57,7 @@ public class UserService implements UserDetailsService {
 
     public boolean addUser(User user) {
         User userByEmail = userRepo.findByEmail(user.getEmail());
-        if (userByEmail != null) {
+        if (userByEmail != null && !StringUtils.isEmpty(user.getPassword())) {
             return false;
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -106,11 +106,6 @@ public class UserService implements UserDetailsService {
             User user = userRepo.findById(id).get();
             user.setBlock(lock);
             userRepo.save(user);
-            if(lock) {
-                //ВЫХОД ТЕКУЩЕГО ПОЛЬЗОВАТЕЛЯ
-                //AccountStatusUserDetailsChecker accountStatusUserDetailsChecker = new AccountStatusUserDetailsChecker();
-                //accountStatusUserDetailsChecker.check(user);
-            }
         }
     }
 
@@ -118,9 +113,6 @@ public class UserService implements UserDetailsService {
         for(Long id : deleteList) {
             User user = userRepo.findById(id).get();
             userRepo.delete(user);
-            //ВЫХОД ТЕКУЩЕГО ПОЛЬЗОВАТЕЛЯ
-            //AccountStatusUserDetailsChecker accountStatusUserDetailsChecker = new AccountStatusUserDetailsChecker();
-            //accountStatusUserDetailsChecker.check(user);
         }
     }
 
@@ -166,14 +158,8 @@ public class UserService implements UserDetailsService {
         String uuidFile = UUID.randomUUID().toString();
         String receiverName = uuidFile + "." + file.getOriginalFilename();
 
-        user.setFilename(receiverName);
-        try {
-        System.out.println("MULTIPATH: " + file.getName() + " ------- " + file.getOriginalFilename() + " -------- " + file.getContentType() + " ----" + file.getResource().getFilename());
+        user.setFilename(fileLoader.sendFileByProfile(file, receiverName));
 
-            fileLoader.sendFileByProfile(file.getInputStream().toString(), receiverName);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         userRepo.save(user);
     }
 

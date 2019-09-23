@@ -31,10 +31,18 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public String addUser(@Valid User user, Model model) {
+    public String addUser(@Valid User user, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
+
+            model.mergeAttributes(errors);
+
+            return "/registration";
+        }
 
         if (!userService.addUser(user)) {
-            model.addAttribute("usernameError", "User exists!");
+            model.addAttribute("emailError", "User exists!");
             return "registration";
         }
 

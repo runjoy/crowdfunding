@@ -16,11 +16,9 @@ import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -53,13 +51,26 @@ public class FileLoader {
 
     private final String PROFILE_FOLDER_ID = "1SQjVT3jDgL0AyD1sihIwhf_8uh6HHGVp";
 
-    public void sendFileByProfile(String senderPath, String receiverName) {
+    public String sendFileByProfile(MultipartFile miltipartFile, String receiverName) {
         File fileMetadata = new File();
         List<String> parents = new ArrayList<>(1);
         parents.add(PROFILE_FOLDER_ID);
         fileMetadata.setParents(parents);
         fileMetadata.setName(receiverName);
-        java.io.File filePath = new java.io.File(senderPath);
+        System.out.println("!!!" + miltipartFile.getOriginalFilename());
+        java.io.File filePath = new java.io.File(miltipartFile.getOriginalFilename());
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(filePath);
+            fos.write(miltipartFile.getBytes());
+            fos.close();
+        } catch (FileNotFoundException e) {
+            return "";
+        } catch (IOException e) {
+            return "";
+        }
+
+        System.out.println("!!!" + filePath);
         FileContent mediaContent = new FileContent("image/jpeg", filePath);
         File file = null;
         try {
@@ -67,50 +78,26 @@ public class FileLoader {
                     .setFields("id")
                     .execute();
         } catch (IOException e) {
-            e.printStackTrace();
+            return "";
         }
         System.out.println("File ID: " + file.getId());
+        return file.getId();
     }
 
-    /*private void sendFile() {
-
-        File fileMetadata = new File();
-        List<String> parents = new ArrayList<>(1);
-        parents.add(PROFILE_FOLDER_ID);
-        fileMetadata.setParents(parents);
-        fileMetadata.setName("photo.png");
-        java.io.File filePath = new java.io.File("D:/spring/boot/crowdfunding/src/main/resources/static/img/russian.png");
-        FileContent mediaContent = new FileContent("image/png", filePath);
+    public String getFile(String fileId) {
         File file = null;
         try {
-            file = service.files().create(fileMetadata, mediaContent)
-                    .setFields("id")
-                    .execute();
+            file = service.files().get(fileId).execute();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("File ID: " + file.getId());
-    }*/
-
-    private void getFile() {
-        FileList result = null;
-        try {
-            result = service.files().list()
-                    .setPageSize(10)
-                    .setFields("nextPageToken, files(id, name)")
-                    .execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        List<File> files = result.getFiles();
-        if (files == null || files.isEmpty()) {
+        if (file == null || file.isEmpty()) {
             System.out.println("No files found.");
         } else {
-            System.out.println("Files:");
-            for (File file : files) {
-                System.out.printf("%s (%s)\n", file.getName(), file.getId());
-            }
+            System.out.printf("%s (%s)\n", file.getName(), file.getId());
+            return file.getId();
         }
+        return "";
     }
 
     private Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
@@ -129,6 +116,14 @@ public class FileLoader {
                 .build();
         LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+    }
+
+    private java.io.File convertMultiPartToFile(MultipartFile file) throws IOException {
+        java.io.File convFile = new java.io.File(file.getOriginalFilename());
+        FileOutputStream fos = new FileOutputStream(convFile);
+        fos.write(file.getBytes());
+        fos.close();
+        return convFile;
     }
 
     public static void main(String... args) throws IOException, GeneralSecurityException {

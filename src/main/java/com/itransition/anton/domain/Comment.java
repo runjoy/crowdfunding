@@ -1,5 +1,7 @@
 package com.itransition.anton.domain;
 
+import org.hibernate.search.annotations.*;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -10,7 +12,6 @@ import java.util.List;
 
 @Entity
 public class Comment {
-    //ss
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,10 +20,11 @@ public class Comment {
     @JoinColumn(name = "user_id", nullable = false)
     private User author;
 
+    @Field(index = org.hibernate.search.annotations.Index.YES, analyze=Analyze.YES, termVector = TermVector.YES, analyzer = @Analyzer(definition = "edgeNgram"), store = Store.NO)
     @Column(length=2000)
     private String text;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "company_id", nullable = false)
     private Company company;
 

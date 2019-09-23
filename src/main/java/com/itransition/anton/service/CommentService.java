@@ -25,9 +25,10 @@ public class CommentService {
     @Autowired
     private CommentLikeRepo commentLikeRepo;
 
-    public void addComment(User author, Company company, String text) {
+    public Comment addComment(User author, Company company, String text) {
         Comment comment = new Comment(author, company, text, new Date());
         commentRepo.save(comment);
+        return comment;
     }
 
     public void deleteComment(Long commentId) {

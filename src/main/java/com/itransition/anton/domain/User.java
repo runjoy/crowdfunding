@@ -4,6 +4,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.util.*;
 
 /**
@@ -16,8 +18,11 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Email(message = "Email is not correct")
+    @NotBlank(message = "Email cannot be empty")
     private String email;
 
+    @NotBlank(message = "Username cannot be empty")
     private String password;
 
     private String activationCode;
@@ -31,6 +36,10 @@ public class User implements UserDetails {
     private String city;
 
     private String filename;
+
+    private String facebookId;
+
+    private String googleId;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date registrationDate;
@@ -211,8 +220,42 @@ public class User implements UserDetails {
         this.comments = comments;
     }
 
-    public static void main(String[] args) {
-        Topic[] topics = Topic.values();
-        System.out.println(Topic.getTopics());
+    public String getFacebookId() {
+        return facebookId;
+    }
+
+    public void setFacebookId(String facebookId) {
+        this.facebookId = facebookId;
+    }
+
+    public String getGoogleId() {
+        return googleId;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", activationCode='" + activationCode + '\'' +
+                ", block=" + block +
+                ", lastname='" + lastname + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", city='" + city + '\'' +
+                ", filename='" + filename + '\'' +
+                ", facebookId='" + facebookId + '\'' +
+                ", googleId='" + googleId + '\'' +
+                ", registrationDate=" + registrationDate +
+                ", roles=" + roles +
+                ", companies=" + companies +
+                ", commentLikeList=" + commentLikeList +
+                ", comments=" + comments +
+                ", bonusList=" + bonusList +
+                '}';
     }
 }

@@ -1,11 +1,15 @@
 package com.itransition.anton.config;
 
+import org.hibernate.search.jpa.FullTextEntityManager;
+import org.hibernate.search.jpa.Search;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.Properties;
 
 /**
@@ -46,6 +50,5 @@ public class MailConfig {
         properties.setProperty("mail.transport.protocol", protocol);
         properties.setProperty("mail.debug", debug);
         return  mailSender;
-
     }
 }

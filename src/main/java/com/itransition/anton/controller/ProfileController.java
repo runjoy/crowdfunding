@@ -2,6 +2,7 @@ package com.itransition.anton.controller;
 
 import com.itransition.anton.domain.Role;
 import com.itransition.anton.domain.User;
+import com.itransition.anton.service.FileLoader;
 import com.itransition.anton.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,6 +25,9 @@ public class ProfileController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private FileLoader fileLoader;
 
     @PreAuthorize("authenticated")
     @GetMapping

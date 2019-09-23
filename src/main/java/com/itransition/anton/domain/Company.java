@@ -6,6 +6,7 @@ import org.apache.lucene.analysis.core.WhitespaceTokenizerFactory;
 import org.apache.lucene.analysis.miscellaneous.ASCIIFoldingFilterFactory;
 import org.apache.lucene.analysis.ngram.EdgeNGramFilterFactory;
 import org.apache.lucene.analysis.snowball.SnowballPorterFilterFactory;
+import org.apache.lucene.analysis.standard.StandardFilterFactory;
 import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
 import org.hibernate.search.annotations.*;
 import org.hibernate.search.annotations.Index;
@@ -27,24 +28,18 @@ import java.util.List;
 @AnalyzerDef(name = "edgeNgram",
         tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
         filters = {
-                @TokenFilterDef(factory = ASCIIFoldingFilterFactory.class), // Replace accented characeters by their simpler counterpart (è => e, etc.)
-                @TokenFilterDef(factory = LowerCaseFilterFactory.class), // Lowercase all characters
-                @TokenFilterDef(
-                        factory = EdgeNGramFilterFactory.class, // Generate prefix tokens
-                        params = {
-                                @Parameter(name = "minGramSize", value = "1")
-                        }
-                )
+                @TokenFilterDef(factory = LowerCaseFilterFactory.class)
         })
+
 public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Field(index = Index.YES, termVector = TermVector.YES, analyze=Analyze.NO, analyzer = @Analyzer(definition = "edgeNgram"), store = Store.NO)
+    @Field(index = Index.YES, termVector = TermVector.YES, analyze=Analyze.YES, analyzer = @Analyzer(definition = "edgeNgram"), store = Store.NO)
     private String name;
 
-    @Field(index = Index.YES, termVector = TermVector.YES, analyze=Analyze.NO, analyzer = @Analyzer(definition = "edgeNgram"), store = Store.NO)
+    @Field(index = Index.YES, termVector = TermVector.YES, analyze=Analyze.YES, analyzer = @Analyzer(definition = "edgeNgram"), store = Store.NO)
     @Column(length=500)
     private String description;
 
@@ -60,7 +55,7 @@ public class Company {
     @Temporal(TemporalType.TIMESTAMP)
     private Date finalDate;
 
-    @Field(index = Index.YES, analyze=Analyze.NO, termVector = TermVector.YES, analyzer = @Analyzer(definition = "edgeNgram"), store = Store.NO)
+    @Field(index = Index.YES, analyze=Analyze.YES, termVector = TermVector.YES, analyzer = @Analyzer(definition = "edgeNgram"), store = Store.NO)
     @Column(length=10000)
     private String text;
 
@@ -78,6 +73,9 @@ public class Company {
     @IndexedEmbedded
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Comment> commentList;
+
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<CompanyImage> companyImageList;
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<CompanyRating> companyRatingList;
@@ -243,5 +241,13 @@ public class Company {
 
     public void setTags(List<Tag> tags) {
         this.tags = tags;
+    }
+
+    public List<CompanyImage> getCompanyImageList() {
+        return companyImageList;
+    }
+
+    public void setCompanyImageList(List<CompanyImage> companyImageList) {
+        this.companyImageList = companyImageList;
     }
 }

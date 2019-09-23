@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="parts/general :: common_header(~{::title})">
+    <title>Поиск</title>
+</head>
+<body th:class="${#themes.code('body')}">
+
+<div th:replace="parts/general :: navbar"></div>
+
+<div class="container mt-5 p-5 bg-white border">
+    <div class="mb-3">
+        <h3 th:text="#{company.search}"></h3>
+        <div th:insert="parts/card :: company_cards(${companies})"></div>
+    </div>
+</div>
+
+
+<div th:replace="parts/general :: footer"></div>
+
+</body>
+</html>

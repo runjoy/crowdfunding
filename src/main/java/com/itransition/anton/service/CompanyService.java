@@ -10,6 +10,7 @@ import org.hibernate.search.jpa.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -35,6 +36,9 @@ public class CompanyService {
 
     @Autowired
     private UserRepo userRepo;
+
+    @Autowired
+    private FileLoader fileLoader;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -145,10 +149,13 @@ public class CompanyService {
         return avarage;
     }
 
-
-
-    public void searchCompany(String searchText) { //ПОЛНОТЕКСТОВЫЙ ПОИСК
+    public List<Company> searchCompany(String searchText) { //ПОЛНОТЕКСТОВЫЙ ПОИСК
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
+        try {
+            fullTextEntityManager.createIndexer().startAndWait();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory()
                 .buildQueryBuilder()
@@ -157,20 +164,24 @@ public class CompanyService {
 
         org.apache.lucene.search.Query luceneQuery = queryBuilder
                 .keyword()
-                .onFields("name", "description", "text")
+                .onFields("name", "description", "text", "tags.name", "commentList.text", "newsList.title", "newsList.text", "bonusList.title", "bonusList.description")
                 .matching(searchText)
                 .createQuery();
 
         javax.persistence.Query jpaQuery
                 = fullTextEntityManager.createFullTextQuery(luceneQuery, Company.class);
 
-        List<Company> results = jpaQuery.getResultList();
-
-        for (Company result : results) {
-            System.out.println(result.getId());
-        }
-        entityManager.close();
+        return jpaQuery.getResultList();
     }
 
+    public void addCompanyImage(Long companyId, MultipartFile file) {
+        Company company = companyRepo.findById(companyId).get();
 
+        String uuidFile = UUID.randomUUID().toString();
+        String receiverName = uuidFile + "." + file.getOriginalFilename();
+
+        company.getCompanyImageList().add(new CompanyImage(fileLoader.sendFileByProfile(file, receiverName), company));
+
+        companyRepo.save(company);
+    }
 }

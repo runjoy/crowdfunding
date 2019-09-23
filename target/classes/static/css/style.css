@@ -15,7 +15,7 @@
     border-radius: 50%;
 }
 
-.active {
+.stars .active {
     background-image: url(/img/yellow_star.png);
 }
 

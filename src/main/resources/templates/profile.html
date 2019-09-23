@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-3"><img src="/img/add_admin.png"></div>
+        <div class="col-3"><img th:src="${'https://drive.google.com/uc?export=view&id=' + user.filename}" width="200" height="200"></div>
         <div class="col-9">
             <span th:text="${(user.firstname != null || user.lastname != null)?user.firstname + ' ' + user.lastname:'Anonymous'}"></span>
         </div>

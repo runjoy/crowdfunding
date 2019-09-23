@@ -28,9 +28,7 @@ public class AdminController {
 
     @GetMapping
     public String userList(Model model) {
-
         model.addAttribute("users", userService.findAll());
-        //userService.updateLoginDate(user);
         return "adminpanel";
     }
 
